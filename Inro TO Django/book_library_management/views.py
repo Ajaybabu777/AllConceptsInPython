@@ -3,6 +3,7 @@ from django.http import JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
 from .models import Author, Book
+from rest_framework import status
 
 @csrf_exempt
 def create_author(request):
@@ -39,4 +40,40 @@ def create_book(request):
         "message":f"{namesOfBooks} have been saved for the {author.name} in Book Table"
     })
 
+
+@csrf_exempt
+def getBookNames(request, author_id):
+    if request.method != "GET":
+        return JsonResponse({
+            "message":"method not supported"
+        }, status = status.HTTP_405_METHOD_NOT_ALLOWED)
+    else:
+
+        authorIdObj = Author.objects.filter(id = author_id)
+
+        if not authorIdObj:
+            return JsonResponse({
+                "message":"Author not found"
+            }, status = status.HTTP_404_NOT_FOUND)
+        
+        books = Book.objects.filter(author_id = author_id)
+        bookList = []
+
+        for book in books:
+            bookList.append(book.title)
+
+        authorId = None
+
+        for book in books:
+            authorId = book.author_id
+            break
+        
+        authorName  = Author.objects.get(id = author_id).name
+
+
+        return JsonResponse({
+            "message":"Book queryed successfully",
+            "authorName":authorName,
+            "data":bookList
+        })
 
