@@ -18,38 +18,8 @@ class LinkedList:
                 current = current.next
             else:
                 current.next = newHead
-
-    def prepend(self,data):
-        newHead = Head(data)
-        newHead.next = self.head
-        self.head = newHead
-
-    def delete(self, data): # nav->ven->manisha->None
-        
-        if self.head.data == data:
-            self.head = self.head.next
-            return
-        else:
-            current = self.head # obj Naveen
-            while current.next is not None:
-                if current.next.data == data:
-                    current.next = current.next.next
-                    return
                 
-                current=current.next
 
-    def addingElementAnywhere(self, data, element):
-        newHead = Head(data)
-        current = self.head
-        while current is not None:
-            if current.data==element:
-                newHead.next = current.next
-                current.next = newHead
-                return
-            current = current.next
-
-    
-    
 
     def displayLL(self):
         current = self.head
@@ -61,11 +31,7 @@ class LinkedList:
 ll = LinkedList()
 ll.append("Avinash")
 ll.append("Venkateshwar")
-ll.append("Manisha")
-ll.prepend("Naveen")
 
-ll.delete('Avinash')
 
-ll.addingElementAnywhere("Nihar", "Venkateshwar")
 ll.displayLL()
 
